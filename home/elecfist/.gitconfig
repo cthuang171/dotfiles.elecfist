@@ -1,0 +1,9 @@
+[user]
+	name = elecfist
+	email = 26300858+elecfist@users.noreply.github.com
+[credential]
+	helper = cache
+[core]
+	autocrlf = input
+[color]
+	ui = auto

@@ -48,50 +48,36 @@ set formatoptions+=1            " when wrapping paragraphs, don't end lines
 "set shortmess+=I               " hide the launch screen
 set clipboard=unnamed           " normal OS clipboard interaction
 set autoread                    " automatically reload files changed outside of Vim
-
 set updatetime=1000             " speed up the updatetime so gitgutter and friends are quicker
-
-" make the keyboard faaaaaaast
-set ttyfast
+set ttyfast                     " make the keyboard faaaaaaast
 set timeout timeoutlen=1000 ttimeoutlen=50
 
-" toggle show/hide invisible chars
-"nnoremap <leader>I :set list!<cr>
-
-" toggle line numbers
-"nnoremap <leader>N :setlocal number!<cr>
-
-" thanks to Steve Losh for this liberating tip
-" tee http://stevelosh.com/blog/2010/09/coming-home-to-vim
-"nnoremap / /\v
-"vnoremap / /\v
-
 " Speed up scrolling of the viewport slightly
-"nnoremap <C-e> 2<C-e>
-"nnoremap <C-y> 2<C-y>
+nnoremap <C-e> 5<C-e>
+nnoremap <C-y> 5<C-y>
 " }}}
 
 " Folding rules {{{
 set foldenable                  " enable folding
 set foldcolumn=1                " add a fold column
-set foldmethod=marker           " detect triple-{ style fold markers
-set foldlevelstart=99           " start out with everything unfolded
+set foldmethod=syntax           " detect triple-{ style fold markers
+set foldlevelstart=10           " start out with everything unfolded
 set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
 " }}}
 
 " Editor layout {{{
-colorscheme dracula             " choosing the color scheme
-syntax on                       " turn on syntax highlight
-"set termguicolors              " enable truecolor
+colorscheme base16-classic-dark " choosing the color scheme
+syntax on                      " turn on syntax highlight
+set termguicolors              " enable truecolor
 set termencoding=utf-8
 set encoding=utf-8
 set lazyredraw                  " don't update the display while executing macros
 set laststatus=2                " tell VIM to always put a status line in, even
                                 "    if there is only one window
 set cmdheight=1                 " use a status bar that is 1 rows high
-set columns=85
-set lines=35
-"winpos 50 0 " Center window
+"set columns=85
+"set lines=35
+"winpos 50 0                    " Center window
 " }}
 
 " Vim behaviour {{{
@@ -104,10 +90,8 @@ set switchbuf=useopen           " reveal already opened files from the
                                 " buffers
 set history=1000                " remember more commands and search history
 set undolevels=1000             " use many muchos levels of undo
-if v:version >= 730
-    set undofile                " keep a persistent backup file
-    set undodir=~/.vim/.undo,~/tmp,/tmp
-endif
+set undofile                    " keep a persistent backup file
+set undodir=~/.vim/.undo,~/tmp,/tmp
 set nobackup                    " do not keep backup files, it's 70's style cluttering
 set noswapfile                  " do not write annoying intermediate swap files,
                                 "    who did ever restore from swap files anyway?
@@ -129,15 +113,31 @@ set nomodeline                  " disable mode lines (security measure)
 set nocursorline                " don't highlight the current line (useful for quick orientation, but also slow to redraw)
 " }}}
 
-"nnoremap <leader>, :set cursorline!<cr>  " toggle highlighting the cursor line
 
 " Shortcut mappings {{{
+
+" Clears the search register
+"nnoremap <silent> <leader>/ :noh<CR>
+" Shortcut for NERDtree
+map <leader>/ :NERDTreeToggle<CR>
+"nnoremap <leader>, :set cursorline!<cr>  " toggle highlighting the cursor line
+
 " Since I never use the ; key anyway, this is a real optimization for almost
 " all Vim commands, as I don't have to press the Shift key to form chords to
 " enter ex mode.
 "nnoremap ; :
 "nnoremap <leader>; ;
 
+" toggle show/hide invisible chars
+"nnoremap <leader>I :set list!<cr>
+
+" toggle line numbers
+"nnoremap <leader>N :setlocal number!<cr>
+
+" thanks to Steve Losh for this liberating tip
+" tee http://stevelosh.com/blog/2010/09/coming-home-to-vim
+"nnoremap / /\v
+"vnoremap / /\v
 
 " Use Q for formatting the current paragraph (or visual selection)
 "vnoremap Q gq
@@ -175,9 +175,6 @@ set nocursorline                " don't highlight the current line (useful for q
 "vnoremap <silent> <leader>d "_d
 " vnoremap <silent> x "_x  TODODODOOo
 
-" Clears the search register
-nnoremap <silent> <leader>/ :noh<CR>
-
 " Pull word under cursor into LHS of a substitute (for quick search and
 " replace)
 "nnoremap <leader>z :%s#\<<C-r>=expand("<cword>")<CR>\>#
@@ -205,3 +202,4 @@ nnoremap <silent> <leader>/ :noh<CR>
 " Reselect text that was just pasted with ,v
 "nnoremap <leader>v V`]
 " }}}
+let g:deoplete#enable_at_startup = 1

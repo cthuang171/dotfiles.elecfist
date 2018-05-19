@@ -1,5 +1,5 @@
 favorites=exo-terminal-emulator.desktop,exo-file-manager.desktop,exo-mail-reader.desktop,exo-web-browser.desktop
-recent=Thunar.desktop,ibus-setup.desktop,xfce4-power-manager-settings.desktop,code.desktop,xfce4-screenshooter.desktop,xfce-settings-manager.desktop,keepass2.desktop,vlc.desktop,exo-file-manager.desktop
+recent=code.desktop,Thunar.desktop,ibus-setup.desktop,xfce4-power-manager-settings.desktop,xfce4-screenshooter.desktop,xfce-settings-manager.desktop,keepass2.desktop,vlc.desktop,exo-file-manager.desktop
 button-title=Applications
 button-icon=xfce4-whiskermenu
 button-single-row=false

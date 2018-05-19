@@ -1,9 +1,16 @@
 [user]
-	name = elecfist
+	name = Hoang Tran
 	email = 26300858+elecfist@users.noreply.github.com
 [credential]
-	helper = cache
+#	helper = cache
 [core]
+    editor = nvim
 	autocrlf = input
 [color]
 	ui = auto
+	diff = auto
+	status = auto
+	branch = auto
+	paper = true
+[credential "https://github.com"]
+	username = elecfist

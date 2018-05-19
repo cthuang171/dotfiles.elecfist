@@ -1,6 +1,4 @@
 set nocompatible                " turn off vi-compatible mode
-syntax on                       " turn on syntax highlight
-colorscheme desert              " choosing the color scheme
 
 " change the mapleader from \ to ,
 let mapleader=","
@@ -26,10 +24,10 @@ set smartcase                   " ignore case if search pattern is all lowercase
 set smarttab                    " insert tabs on the start of a line according to
                                 "    shiftwidth, not tabstop
 set scrolloff=4                 " keep 4 lines off the edges of the screen when scrolling
-"set virtualedit=all            " allow the cursor to go in to "invalid" places
+"set virtualedit=all            " allow the cursor to go in to invalid places
 set hlsearch                    " highlight search terms
 set incsearch                   " show search matches as you type
-"set gdefault                   " search/replace "globally" (on a line) by default
+"set gdefault                   " search/replace globally (on a line) by default
 "set listchars=tab:▸\ ,trail:·,extends:#,nbsp:·
 
 set nolist                      " don't show invisible characters by default,
@@ -82,13 +80,19 @@ set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
 " }}}
 
 " Editor layout {{{
+colorscheme dracula             " choosing the color scheme
+syntax on                       " turn on syntax highlight
+"set termguicolors              " enable truecolor
 set termencoding=utf-8
 set encoding=utf-8
 set lazyredraw                  " don't update the display while executing macros
 set laststatus=2                " tell VIM to always put a status line in, even
                                 "    if there is only one window
 set cmdheight=1                 " use a status bar that is 1 rows high
-" }}}
+set columns=85
+set lines=35
+"winpos 50 0 " Center window
+" }}
 
 " Vim behaviour {{{
 set hidden                      " hide buffers instead of closing them this
@@ -172,7 +176,7 @@ set nocursorline                " don't highlight the current line (useful for q
 " vnoremap <silent> x "_x  TODODODOOo
 
 " Clears the search register
-nnoremap <silent> <leader>/ :nohlsearch<CR>
+nnoremap <silent> <leader>/ :noh<CR>
 
 " Pull word under cursor into LHS of a substitute (for quick search and
 " replace)

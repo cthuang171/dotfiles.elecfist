@@ -1,0 +1,6 @@
+cd ``
+cd -
+set colorscheme solarized
+set colorscheme default
+set colorscheme snow
+set colorscheme jungle

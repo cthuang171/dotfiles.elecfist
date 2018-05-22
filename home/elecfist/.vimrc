@@ -1,74 +1,63 @@
 set nocompatible                   " turn off vi-compatible mode
-set noedcompatible
 
 " change the mapleader from \ to ,
-let mapleader=","
-let maplocalleader="\\"
+"let mapleader=","
+"let maplocalleader="\\"
 
 " Editing behaviour {{{
-if has('vim')
-    filetype plugin indent on
-
+if !has('nvim')
+    filetype plugin indent on       " ?
     set autoindent                  " always set autoindenting on
     set autoread                    " automatically reload files changed outside of Vim
     set backspace=indent,eol,start  " allow backspacing over everything in insert mode
-    set formatoptions=tcqj          " when wrapping paragraphs, don't end lines
-                                    "    with 1-letter words (looks stupid)
+    set formatoptions=tcqj          " ?
     set hlsearch                    " highlight search terms
     set incsearch                   " show search matches as you type
-    set listchars=tab:▸\ ,trail:·,extends:#,nbsp:· " 
-    set nrformats=bin,hex           " make <C-a> and <C-x> play well with
-                                    "    zero-padded numbers (i.e. don't consider
-                                    "    them octal or hex)
-    set sessionoptions-=options
-    set smarttab                    " insert tabs on the start of a line according to
-                                    "    shiftwidth, not tabstop
-    set tabpagemax=50
-    set tags= ./tags;,tags
-    set ttyfast                     " make the keyboard faaaaaaast
+    set listchars=tab:▸\ ,trail:·,extends:#,nbsp:· " ?
+    set mouse=a                     " enable using the mouse if terminal emulator if allowed
+    set nrformats=bin,hex           " make <C-a> and <C-x> play well with zero-padded numbers (i.e. don't consider them octal or hex)
+    set sessionoptions-=options     " ?
+    set smarttab                    " insert tabs on the start of a line according to shiftwidth, not tabstop
+    set tabpagemax=50               " ?
+    set tags= ./tags;,tags          " ?
+    set ttyfast                     " make the keyboard fast
 endif
 
-set showmode                    " always show what mode we're currently editing in
-set nowrap                      " don't wrap lines
-set tabstop=4                   " a tab is four spaces
-set softtabstop=4               " when hitting <BS>, pretend like a tab is removed, even if spaces
-set expandtab                   " expand tabs by default (overloadable per file type later)
-set shiftwidth=4                " number of spaces to use for autoindenting
-set shiftround                  " use multiple of shiftwidth when indenting with '<' and '>'
-set copyindent                  " copy the previous indentation on autoindenting
-set number                      " always show line numbers
-set relativenumber
-set showmatch                   " set show matching parenthesis
-set ignorecase                  " ignore case when searching
-set smartcase                   " ignore case if search pattern is all lowercase,
-                                "    case-sensitive otherwise
-set scrolloff=4                 " keep 4 lines off the edges of the screen when scrolling
-set nolist                      " don't show invisible characters by default,
-                                " but it is enabled for some file types (see later)
-set mouse=a                     " enable using the mouse if terminal emulator
-                                "    supports it (xterm does)
-set fileformats="unix,dos,mac"
-"set shortmess+=I               " hide the launch screen
 set clipboard=unnamed           " normal OS clipboard interaction
+set copyindent                  " copy the previous indentation on autoindenting
+set expandtab                   " expand tabs by default (overloadable per file type later)
+set fileformats="unix,dos,mac"  " ?
+set ignorecase                  " ignore case when searching
+set nolist                      " don't show invisible characters by default, but it is enabled for some file types (see later)
+set noshowmode                  " do not show what mode currently editing in
+set nowrap                      " don't wrap lines
+set nonumber                      " always show line numbers
+set relativenumber              " show line number relative to the current line
+set scrolloff=4                 " keep 4 lines off the edges of the screen when scrolling
+set shiftround                  " use multiple of shiftwidth when indenting with '<' and '>'
+set shiftwidth=4                " number of spaces to use for autoindenting
+set showmatch                   " set show matching parenthesis
+set smartcase                   " ignore case if search pattern is all lowercase, case-sensitive otherwise
+set softtabstop=4               " when hitting <BS>, pretend like a tab is removed, even if spaces
+set tabstop=4                   " a tab is four spaces
+set timeout timeoutlen=1000 ttimeoutlen=50  " ?
 set updatetime=1000             " speed up the updatetime so gitgutter and friends are quicker
-set timeout timeoutlen=1000 ttimeoutlen=50
-
 " }}}
 
 " Folding rules {{{
-set foldenable                  " enable folding
 set foldcolumn=1                " add a fold column
-set foldmethod=syntax           " detect triple-{ style fold markers
+set foldenable                  " enable folding
 set foldlevelstart=10           " start out with everything unfolded
+set foldmethod=syntax           " detect triple-{ style fold markers
 set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
 " }}}
 
 " Editor layout {{{
-if has('vim')
+if !has('nvim')
     set display=lastline,msgsep
-    set ruler
+    set noruler
     set laststatus=2                " tell VIM to always put a status line in, even
-                                    "    if there is only one window
+                                    " if there is only one window
 elseif has('nvim')
     colorscheme base16-classic-dark " choosing the color scheme
 endif
@@ -79,10 +68,48 @@ set termencoding=utf-8
 set encoding=utf-8
 set lazyredraw                  " don't update the display while executing macros
 set cmdheight=1                 " use a status bar that is 1 rows high
-" }}
+
+" }}}
+
+" status line configuration {{{
+
+let g:currentmode={
+    \ 'n'  : 'Normal',
+    \ 'no' : 'N·Operator Pending',
+    \ 'v'  : 'Visual',
+    \ 'V'  : 'V·Line',
+    \ '' : 'V·Block',
+    \ 's'  : 'Select',
+    \ 'S'  : 'S·Line',
+    \ '' : 'S·Block',
+    \ 'i'  : 'Insert',
+    \ 'R'  : 'Replace',
+    \ 'Rv' : 'V·Replace',
+    \ 'c'  : 'Command',
+    \ 'cv' : 'Vim Ex',
+    \ 'ce' : 'Ex',
+    \ 'r'  : 'Prompt',
+    \ 'rm' : 'More',
+    \ 'r?' : 'Confirm',
+    \ '!'  : 'Shell',
+    \ 't'  : 'Terminal'
+    \}
+
+hi User1 guifg=#000000 guibg=#afdf00
+hi User2 guifg=#606060 guibg=#121212
+
+set statusline=
+set statusline+=%1*\ %{toupper(g:currentmode[mode()])}\   " Current mode
+set statusline+=%2*\ <%t>                        " file name (tail of the path)
+set statusline+=%y                        " filetype
+set statusline+=%m                          " modify flag
+set statusline+=%=                          " switch to the right side
+set statusline+=%1*\ %l:%c\                   " line:column
+" }}}
+
 
 " Vim behaviour {{{
-if has('vim')
+if !has('nvim')
     set cscopeverbose
     set directory=~/.vim/.tmp,~/tmp,/tmp
                                     " store swap files in one of these directories
@@ -105,10 +132,7 @@ set hidden                      " hide buffers instead of closing them this
                                 "    that marks and undo history are preserved
 set switchbuf=useopen           " reveal already opened files from the
                                 " quickfix window instead of opening new
-                                " buffers
-set undolevels=1000             " use many muchos levels of undo
-set undofile                    " keep a persistent backup file
-set nobackup                    " do not keep backup files, it's 70's style cluttering
+                                " buffers set undolevels=1000             " use many muchos levels of undo set undofile                    " keep a persistent backup file set nobackup                    " do not keep backup files, it's 70's style cluttering
 set noswapfile                  " do not write annoying intermediate swap files,
                                 "    who did ever restore from swap files anyway?
 set viminfo='20,\"80            " read/write a .viminfo file, don't store more
@@ -127,17 +151,11 @@ set nocursorline                " don't highlight the current line (useful for q
 nnoremap <C-e> 5<C-e>
 nnoremap <C-y> 5<C-y>
 
-" Shortcut for NERDtree
-map <leader>/ :NERDTreeToggle<CR>
-
 " toggle highlighting the cursor line
 nnoremap <leader>cl :set cursorline!<cr>
 
 " toggle show/hide invisible chars
 nnoremap <leader>I :set list!<cr>
-
-" toggle line numbers
-nnoremap <leader>N :setlocal number!<cr>
 
 " Easy window navigation
 noremap <C-h> <C-w>h
@@ -145,13 +163,6 @@ noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 noremap <leader>w <C-w>v<C-w>l
-
-" Since I never use the ; key anyway, this is a real optimization for almost
-" all Vim commands, as I don't have to press the Shift key to form chords to
-" enter ex mode.
-"nnoremap ; :
-"nnoremap <leader>; ;
-
 
 " thanks to Steve Losh for this liberating tip
 " tee http://stevelosh.com/blog/2010/09/coming-home-to-vim
@@ -178,7 +189,7 @@ noremap <leader>w <C-w>v<C-w>l
 " yanked stack (also, in visual mode)
 "nnoremap <silent> <leader>d "_d
 "vnoremap <silent> <leader>d "_d
-" vnoremap <silent> x "_x  TODODODOOo
+"vnoremap <silent> x "_x  TODODODOOo
 
 " Pull word under cursor into LHS of a substitute (for quick search and
 " replace)
@@ -209,5 +220,13 @@ noremap <leader>w <C-w>v<C-w>l
 " }}}
 
 " Package Specific Option {{{
-let g:deoplete#enable_at_startup = 1
+" enable deoplete (requires nvim v0.2
+if has('nvim-0.2')
+    let g:deoplete#enable_at_startup = 1
+endif
+" shortcut for tagbar
+nmap <leader>tt :TagbarToggle<CR>
+
+" fzf.vim runtime path
+set rtp+=/opt/fzf
 " }}}

@@ -19,10 +19,10 @@ if !has('nvim')
     set sessionoptions-=options     " ?
     set smarttab                    " insert tabs on the start of a line according to shiftwidth, not tabstop
     set tabpagemax=50               " ?
-    set tags= ./tags;,tags          " ?
     set ttyfast                     " make the keyboard fast
 endif
 
+"set tags= ./tags;,tags          " ?
 set clipboard=unnamed           " normal OS clipboard interaction
 set copyindent                  " copy the previous indentation on autoindenting
 set expandtab                   " expand tabs by default (overloadable per file type later)
@@ -54,12 +54,12 @@ set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
 
 " Editor layout {{{
 if !has('nvim')
-    set display=lastline,msgsep
     set noruler
     set laststatus=2                " tell VIM to always put a status line in, even
                                     " if there is only one window
 elseif has('nvim')
     colorscheme base16-classic-dark " choosing the color scheme
+    set display=lastline,msgsep
 endif
 
 syntax on                      " turn on syntax highlight

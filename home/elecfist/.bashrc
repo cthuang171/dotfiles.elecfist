@@ -113,5 +113,10 @@ if ! shopt -oq posix; then
 fi
 # this is used for RUST's cargo build system
 export PATH="$HOME/.cargo/bin:$PATH"
-ONI_NEOVIM_PATH=/opt/nvim/nvim.appimage
-export ONI_NEOVIM_PATH
+# set neovim as default editor, also for onivim
+export VISUAL=/opt/nvim/nvim.appimage
+export EDITOR="$VISUAL"
+export ONI_NEOVIM_PATH="$VISUAL"
+
+
+

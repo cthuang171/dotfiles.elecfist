@@ -2,8 +2,8 @@
 
 <channel name="xsettings" version="1.0">
   <property name="Net" type="empty">
-    <property name="ThemeName" type="string" value="Adwaita-dark"/>
-    <property name="IconThemeName" type="string" value="Numix"/>
+    <property name="ThemeName" type="string" value="Qogir-dark"/>
+    <property name="IconThemeName" type="string" value="Zafiro-icons-0.7.2"/>
     <property name="DoubleClickTime" type="empty"/>
     <property name="DoubleClickDistance" type="empty"/>
     <property name="DndDragThreshold" type="empty"/>
@@ -17,13 +17,13 @@
     <property name="DPI" type="int" value="-1"/>
     <property name="Antialias" type="int" value="1"/>
     <property name="Hinting" type="int" value="1"/>
-    <property name="HintStyle" type="string" value="hintslight"/>
+    <property name="HintStyle" type="string" value="hintmedium"/>
     <property name="RGBA" type="empty"/>
   </property>
   <property name="Gtk" type="empty">
     <property name="CanChangeAccels" type="bool" value="false"/>
     <property name="ColorPalette" type="empty"/>
-    <property name="FontName" type="string" value="Sans 10"/>
+    <property name="FontName" type="string" value="Roboto Medium 11"/>
     <property name="IconSizes" type="empty"/>
     <property name="KeyThemeName" type="empty"/>
     <property name="ToolbarStyle" type="string" value="icons"/>
@@ -36,6 +36,6 @@
     <property name="DecorationLayout" type="string" value="menu:minimize,close"/>
   </property>
   <property name="Xfce" type="empty">
-    <property name="LastCustomDPI" type="int" value="96"/>
+    <property name="LastCustomDPI" type="int" value="72"/>
   </property>
 </channel>

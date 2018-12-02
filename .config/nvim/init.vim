@@ -1,12 +1,11 @@
-set nocompatible                   " turn off vi-compatible mode
-
 " change the mapleader from \ to ,
 "let mapleader=","
 "let maplocalleader="\\"
 
 " Editing behaviour {{{
 if !has('nvim')
-    filetype plugin indent on       " ?
+    set nocompatible                   " turn off vi-compatible mode
+    filetype off                    " ?
     set autoindent                  " always set autoindenting on
     set autoread                    " automatically reload files changed outside of Vim
     set backspace=indent,eol,start  " allow backspacing over everything in insert mode
@@ -26,12 +25,12 @@ endif
 set clipboard=unnamed           " normal OS clipboard interaction
 set copyindent                  " copy the previous indentation on autoindenting
 set expandtab                   " expand tabs by default (overloadable per file type later)
-set fileformats="unix,dos,mac"  " ?
+"set fileformats="unix,dos,mac"  " ?
 set ignorecase                  " ignore case when searching
 set nolist                      " don't show invisible characters by default, but it is enabled for some file types (see later)
 set noshowmode                  " do not show what mode currently editing in
 set nowrap                      " don't wrap lines
-set nonumber                      " always show line numbers
+set nonumber                    " always show line numbers
 set relativenumber              " show line number relative to the current line
 set scrolloff=4                 " keep 4 lines off the edges of the screen when scrolling
 set shiftround                  " use multiple of shiftwidth when indenting with '<' and '>'
@@ -133,8 +132,7 @@ set hidden                      " hide buffers instead of closing them this
 set switchbuf=useopen           " reveal already opened files from the
                                 " quickfix window instead of opening new
                                 " buffers set undolevels=1000             " use many muchos levels of undo set undofile                    " keep a persistent backup file set nobackup                    " do not keep backup files, it's 70's style cluttering
-set noswapfile                  " do not write annoying intermediate swap files,
-                                "    who did ever restore from swap files anyway?
+set noswapfile                  " do not write annoying intermediate swap files, who did ever restore from swap files anyway?
 set viminfo='20,\"80            " read/write a .viminfo file, don't store more
                                 "    than 80 lines of registers
 set wildmode=list:full          " show a list when pressing tab and complete
@@ -145,17 +143,19 @@ set nomodeline                  " disable mode lines (security measure)
 set nocursorline                " don't highlight the current line (useful for quick orientation, but also slow to redraw)
 " }}}
 
+" Netrw config {{{
+let g:netrw_liststyle = 3 " tree style
+let g:netrw_banner = 0
+let g:netrw_browse_split = 2 " vertical split
+let g:netrw_winsize = 25 " 25% width of the page
+let g:netrw_altv = 1    " left split
+" }}}
+
 " Shortcut mappings {{{
 
 " Speed up scrolling of the viewport slightly
 nnoremap <C-e> 5<C-e>
 nnoremap <C-y> 5<C-y>
-
-" toggle highlighting the cursor line
-nnoremap <leader>cl :set cursorline!<cr>
-
-" toggle show/hide invisible chars
-nnoremap <leader>I :set list!<cr>
 
 " Easy window navigation
 noremap <C-h> <C-w>h
@@ -220,13 +220,65 @@ noremap <leader>w <C-w>v<C-w>l
 " }}}
 
 " Package Specific Option {{{
+
 " enable deoplete (requires nvim v0.2
-if has('nvim-0.2')
+if has("nvim-0.2")
     let g:deoplete#enable_at_startup = 1
 endif
-" shortcut for tagbar
-nmap <leader>tt :TagbarToggle<CR>
 
-" fzf.vim runtime path
+if exists("g:gui_oni")
+    " Statements here
+    let g:deoplete#enable_at_startup = 0
+    let g:LanguageClient_autoStart = 0
+    let g:LanguageClient_autoStop = 0
+endif
+
+" runtime path for plugins
 set rtp+=/opt/fzf
-" }}}
+set rtp+=~/.local/share/nvim/site/pack/git-plugin/start/LanguageClient-neovim
+
+if !exists("g:gui_oni")
+let g:LanguageClient_serverCommands = {
+    \ 'cpp': ['/opt/cquery/bin/cquery',
+    \         '--log-file = /tmp/cq.log',
+    \         '--init = {"cacheDirectory": "/tmp/cquery/",
+    \                    "completion": {"filterAndSort": false}
+    \                   }'
+    \        ],
+    \ 'c': ['/opt/cquery/bin/cquery',
+    \       '--log-file = /tmp/cq.log',
+    \       '--init={"cacheDirectory": "/tmp/cquery/",
+    \                "completion": {"filterAndSort": false}
+    \               }'
+    \      ],
+    \ 'python': ['/home/elecfist/.local/bin/pyls']
+    \ }
+
+"let g:LanguageClient_settingsPath = '~/.config/nvim/settings.json'
+set completefunc=LanguageClient#complete " let LC handle the completion
+set formatexpr=LanguageClient_textDocument_rangeFormating_sync()
+
+function SetLSPShortcuts()
+    nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
+    nnoremap <leader>li :call LanguageClient#textDocument_implementation()<CR>
+    nnoremap <leader>lc :call LanguageClient#textDocument_codeAction()<CR>
+    nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+    nnoremap <silent> <F3> :call LanguageClient#textDocument_formatting()<CR>
+    nnoremap <silent> <F7> :call LanguageClient#workspace_symbol()<CR>
+    nnoremap <silent> <F8> :call LanguageClient#textDocument_documentSymbol()<CR>
+    nnoremap <silent> <F9> :call LanguageClient#textDocument_hover()<CR>
+    nnoremap <silent> <F10> :call LanguageClient#textDocument_references()<CR>
+    nnoremap <silent> <F12> :call LanguageClient#textDocument_definition()<CR>
+    nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
+endfunction()
+
+augroup LSP
+    autocmd!
+    autocmd FileType cpp,c call SetLSPShortcuts()
+    autocmd FileType python call SetLSPShortcuts()
+augroup END
+
+endif
+
+"call deoplete#custom#source('LanguageClient', 'min_pattern_length', 2)
+"}}}

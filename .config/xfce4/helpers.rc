@@ -1,3 +1,4 @@
 WebBrowser=debian-sensible-browser
 TerminalEmulator=debian-x-terminal-emulator
+MailReader=thunderbird
 

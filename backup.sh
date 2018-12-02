@@ -7,7 +7,7 @@ cp -r ~/.config/htop/ .config/
 echo ">htop...done"
 cp -r ~/.config/nvim/ .config/
 echo ">nvim...done"
-cp -r ~/.config/oni/config.tsx .config/oni
+cp -r ~/.config/oni/config.tsx .config/oni/
 echo ">oni...done"
 cp -r ~/.config/ranger/ .config/
 echo ">ranger...done"

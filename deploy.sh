@@ -1,4 +1,6 @@
-# deploy all .config directories
+# deploy .config 
 cp -r .config/* ~/.config/
-# deploy all dotfiles
-cp -r home/elecfist/.[!.]* ~/
+# deploy dotfiles
+cp -r home/thieenq/.[!.]* ~/
+
+cp etc/lightdm/* /etc/lightdm/

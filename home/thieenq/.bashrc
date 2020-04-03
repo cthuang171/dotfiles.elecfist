@@ -111,12 +111,19 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-# this is used for RUST's cargo build system
-export PATH="$HOME/.cargo/bin:$PATH"
-# set neovim as default editor, also for onivim
-export VISUAL=/opt/nvim/nvim.appimage
-export EDITOR="$VISUAL"
-export ONI_NEOVIM_PATH="$VISUAL"
+
+# set neovim as default editor
+export EDITOR=nvim
+export SYSTEMD_EDITOR="$EDITOR"
+export VISUAL="$EDITOR"
+# ibus config
+export GTK_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
+export QT4_IM_MODULE=ibus
+export QT_IM_MODULE=ibus
+# include local python module
+export PATH=$PATH:~/.local/bin/
+
 
 
 

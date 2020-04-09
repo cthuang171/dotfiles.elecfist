@@ -117,8 +117,8 @@ export EDITOR=nvim
 export SYSTEMD_EDITOR="$EDITOR"
 export VISUAL="$EDITOR"
 # ibus config
-export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
+export GTK_IM_MODULE=ibus
 export QT4_IM_MODULE=ibus
 export QT_IM_MODULE=ibus
 # include local python module
